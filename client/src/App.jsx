@@ -1,3 +1,6 @@
+
+import Intro from "./components/Intro";
+
 import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
 import me from "./assets/me.jpg";
 
@@ -14,6 +17,13 @@ import "./App.css";
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function App() {
+  const [introDone, setIntroDone] = useState(
+    () => sessionStorage.getItem("introSeen") === "1"
+  );
+  const finishIntro = () => {
+    sessionStorage.setItem("introSeen", "1");
+    setIntroDone(true);
+  };
   const [projects, setProjects] = useState([]);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState("");
@@ -48,7 +58,7 @@ export default function App() {
   const heroSize = window.innerWidth < 700 ? 90 : 160;
 
   return (
-    <>
+    <>{!introDone && <Intro onDone={finishIntro} />}
       <nav className="nav">
         <div className="logo"><span>●</span> sarthak</div>
         <div>
